@@ -30,6 +30,13 @@ mixin _$LoginStore on _LoginStore, Store {
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
               name: '_LoginStore.isFormValid'))
           .value;
+  Computed<dynamic>? _$loginPressedComputed;
+
+  @override
+  dynamic get loginPressed =>
+      (_$loginPressedComputed ??= Computed<dynamic>(() => super.loginPressed,
+              name: '_LoginStore.loginPressed'))
+          .value;
 
   final _$emailAtom = Atom(name: '_LoginStore.email');
 
@@ -76,6 +83,50 @@ mixin _$LoginStore on _LoginStore, Store {
     });
   }
 
+  final _$loadingAtom = Atom(name: '_LoginStore.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  final _$loggedInAtom = Atom(name: '_LoginStore.loggedIn');
+
+  @override
+  bool get loggedIn {
+    _$loggedInAtom.reportRead();
+    return super.loggedIn;
+  }
+
+  @override
+  set loggedIn(bool value) {
+    _$loggedInAtom.reportWrite(value, super.loggedIn, () {
+      super.loggedIn = value;
+    });
+  }
+
+  final _$loginAsyncAction = AsyncAction('_LoginStore.login');
+
+  @override
+  Future<dynamic> login() {
+    return _$loginAsyncAction.run(() => super.login());
+  }
+
+  final _$logoutAsyncAction = AsyncAction('_LoginStore.logout');
+
+  @override
+  Future<dynamic> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   final _$_LoginStoreActionController = ActionController(name: '_LoginStore');
 
   @override
@@ -117,9 +168,12 @@ mixin _$LoginStore on _LoginStore, Store {
 email: ${email},
 password: ${password},
 passwordObscure: ${passwordObscure},
+loading: ${loading},
+loggedIn: ${loggedIn},
 isEmailValid: ${isEmailValid},
 isPasswordValid: ${isPasswordValid},
-isFormValid: ${isFormValid}
+isFormValid: ${isFormValid},
+loginPressed: ${loginPressed}
     ''';
   }
 }
